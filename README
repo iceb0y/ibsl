@@ -1,0 +1,18 @@
+ib C++ standard library.
+
+Usage
+
+Copy / fork / submodule. Send pull request if you made something awesome.
+
+Rules
+
+New feature should not introduce significant compile-time overhead, or any
+runtime overhead when it's not used.
+
+Build
+
+TBD
+
+Example
+
+PrintText("Hello", 42);  // Not implemented
