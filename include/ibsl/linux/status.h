@@ -15,7 +15,7 @@ struct LinuxStatusCategory {
     static constexpr int kSuccessValue = 0;
 };
 
-using LinuxStatus = Status<LinuxStatusCategory>;
+using LinuxStatus = BasicStatus<LinuxStatusCategory>;
 
 static_assert(sizeof(LinuxStatus) == sizeof(int));
 

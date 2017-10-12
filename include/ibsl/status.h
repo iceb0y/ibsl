@@ -4,13 +4,13 @@
 namespace ibsl {
 
 template <typename CategoryT>
-class Status {
+class BasicStatus {
 public:
     using ValueType = typename CategoryT::ValueType;
     static constexpr ValueType kSuccessValue = CategoryT::kSuccessValue;
 
-    Status();
-    Status(ValueType value);
+    BasicStatus();
+    BasicStatus(ValueType value);
     bool IsSuccess();
 
 private:
@@ -18,15 +18,15 @@ private:
 };
 
 template <typename CategoryT>
-Status<CategoryT>::Status()
+BasicStatus<CategoryT>::BasicStatus()
     : value(kSuccessValue) {}
 
 template <typename CategoryT>
-Status<CategoryT>::Status(ValueType value)
+BasicStatus<CategoryT>::BasicStatus(ValueType value)
     : value(value) {}
 
 template <typename CategoryT>
-bool Status<CategoryT>::IsSuccess() {
+bool BasicStatus<CategoryT>::IsSuccess() {
     return CategoryT::IsSuccess(value);
 }
 
