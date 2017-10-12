@@ -10,7 +10,7 @@ public:
     static constexpr ValueType kSuccessValue = CategoryT::kSuccessValue;
 
     BasicStatus();
-    BasicStatus(ValueType value);
+    explicit BasicStatus(ValueType value);
     bool IsSuccess();
 
 private:
