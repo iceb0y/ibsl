@@ -14,20 +14,20 @@ public:
     bool IsSuccess();
 
 private:
-    ValueType value;
+    ValueType value_;
 };
 
 template <typename CategoryT>
 BasicStatus<CategoryT>::BasicStatus()
-    : value(kSuccessValue) {}
+    : value_(kSuccessValue) {}
 
 template <typename CategoryT>
 BasicStatus<CategoryT>::BasicStatus(ValueType value)
-    : value(value) {}
+    : value_(value) {}
 
 template <typename CategoryT>
 bool BasicStatus<CategoryT>::IsSuccess() {
-    return CategoryT::IsSuccess(value);
+    return CategoryT::IsSuccess(value_);
 }
 
 }
