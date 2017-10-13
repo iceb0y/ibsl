@@ -4,6 +4,6 @@
 using namespace ibsl;
 
 int main() {
-    assert(LinuxStatus(0).IsSuccess());
-    assert(!LinuxStatus(1).IsSuccess());
+    assert(Status(STATUS_SUCCESS).IsSuccess());
+    assert(!Status(STATUS_UNKNOWN).IsSuccess());
 }

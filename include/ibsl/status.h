@@ -30,6 +30,24 @@ bool BasicStatus<CategoryT>::IsSuccess() {
     return CategoryT::IsSuccess(value_);
 }
 
+enum StatusValue {
+    STATUS_SUCCESS = 0,
+    STATUS_UNKNOWN = 1,
+    STATUS_CANCELLED = 2,
+};
+
+struct StatusCategory {
+    using ValueType = StatusValue;
+
+    static bool IsSuccess(StatusValue value) {
+        return value == kSuccessValue;
+    }
+
+    static constexpr StatusValue kSuccessValue = STATUS_SUCCESS;
+};
+
+using Status = BasicStatus<StatusCategory>;
+
 }
 
 #endif
