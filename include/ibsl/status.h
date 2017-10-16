@@ -11,7 +11,7 @@ public:
 
     BasicStatus();
     explicit BasicStatus(ValueType value);
-    bool IsSuccess();
+    bool success();
 
 private:
     ValueType value_;
@@ -26,7 +26,7 @@ BasicStatus<CategoryT>::BasicStatus(ValueType value)
     : value_(value) {}
 
 template <typename CategoryT>
-bool BasicStatus<CategoryT>::IsSuccess() {
+bool BasicStatus<CategoryT>::success() {
     return CategoryT::IsSuccess(value_);
 }
 
@@ -34,6 +34,8 @@ enum StatusValue {
     STATUS_SUCCESS = 0,
     STATUS_UNKNOWN = 1,
     STATUS_CANCELLED = 2,
+    STATUS_UNAVAILABLE = 3,
+    STATUS_PENDING = 4,
 };
 
 struct StatusCategory {

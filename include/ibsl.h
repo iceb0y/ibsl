@@ -1,6 +1,7 @@
 #ifndef IBSL_H
 #define IBSL_H
 
+#include "ibsl/singleton.h"
 #include "ibsl/status.h"
 #include "ibsl/view.h"
 
