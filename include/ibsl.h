@@ -2,7 +2,7 @@
 #define IBSL_H
 
 #include "ibsl/status.h"
-#include "ibsl/string-view.h"
+#include "ibsl/view.h"
 
 #ifdef __linux__
 #include "ibsl/linux.h"

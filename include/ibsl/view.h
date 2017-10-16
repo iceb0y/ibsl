@@ -1,5 +1,5 @@
-#ifndef IBSL_STRING_VIEW_H
-#define IBSL_STRING_VIEW_H
+#ifndef IBSL_VIEW_H
+#define IBSL_VIEW_H
 
 #include <cstddef>
 
@@ -11,11 +11,7 @@ public:
     BasicArrayView(ElementT *data, SizeT size)
             : data_(data), size_(size) {}
 
-    ElementT *data() {
-        return data_;
-    }
-
-    const ElementT *data() const {
+    ElementT *data() const {
         return data_;
     }
 
@@ -29,9 +25,14 @@ private:
 };
 
 template <typename ElementT>
-using ArrayView = BasicArrayView<ElementT, size_t>;
+using MutableArrayView = BasicArrayView<ElementT, size_t>;
+
+template <typename ElementT>
+using ArrayView = MutableArrayView<const ElementT>;
+
+using MutableStringView = MutableArrayView<char>;
 using StringView = ArrayView<char>;
 
 }
 
-#endif //PROJECT_STRING_VIEW_H
+#endif

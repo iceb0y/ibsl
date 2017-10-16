@@ -3,18 +3,18 @@
 
 #include <errno.h>
 #include <unistd.h>
-#include "ibsl/string-view.h"
+#include "ibsl/view.h"
 #include "ibsl/linux/status.h"
 
 namespace ibsl {
 
 template <int fd>
 struct LinuxBasicInput {
-    LinuxStatus Read(StringView buffer, size_t &actual_size);
+    LinuxStatus Read(MutableStringView buffer, size_t &actual_size);
 };
 
 template <int fd>
-LinuxStatus LinuxBasicInput<fd>::Read(StringView buffer,
+LinuxStatus LinuxBasicInput<fd>::Read(MutableStringView buffer,
                                       size_t &actual_size) {
     ssize_t result = read(fd, buffer.data(), buffer.size());
     if (result < 0) {
@@ -26,11 +26,11 @@ LinuxStatus LinuxBasicInput<fd>::Read(StringView buffer,
 
 template <int fd>
 struct LinuxBasicOutput {
-    LinuxStatus Write(const StringView buffer, size_t &actual_size);
+    LinuxStatus Write(StringView buffer, size_t &actual_size);
 };
 
 template <int fd>
-LinuxStatus LinuxBasicOutput<fd>::Write(const StringView buffer,
+LinuxStatus LinuxBasicOutput<fd>::Write(StringView buffer,
                                         size_t &actual_size) {
     ssize_t result = write(fd, buffer.data(), buffer.size());
     if (result < 0) {
@@ -40,9 +40,9 @@ LinuxStatus LinuxBasicOutput<fd>::Write(const StringView buffer,
     return LinuxStatus();
 }
 
-using LinuxRawStandardInput = LinuxBasicInput<STDIN_FILENO>;
-using LinuxRawStandardOutput = LinuxBasicOutput<STDOUT_FILENO>;
-using LinuxRawStandardError = LinuxBasicOutput<STDERR_FILENO>;
+using LinuxStandardInput = LinuxBasicInput<STDIN_FILENO>;
+using LinuxStandardOutput = LinuxBasicOutput<STDOUT_FILENO>;
+using LinuxStandardError = LinuxBasicOutput<STDERR_FILENO>;
 
 }
 
