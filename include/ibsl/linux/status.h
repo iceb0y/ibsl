@@ -7,12 +7,11 @@ namespace ibsl {
 
 struct LinuxStatusCategory {
     using ValueType = int;
+    static constexpr int kSuccessValue = 0;
 
     static bool IsSuccess(int value) {
         return value == kSuccessValue;
     }
-
-    static constexpr int kSuccessValue = 0;
 };
 
 using LinuxStatus = BasicStatus<LinuxStatusCategory>;

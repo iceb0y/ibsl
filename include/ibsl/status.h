@@ -30,25 +30,26 @@ bool BasicStatus<CategoryT>::success() {
     return CategoryT::IsSuccess(value_);
 }
 
-enum StatusValue {
-    STATUS_SUCCESS = 0,
-    STATUS_UNKNOWN = 1,
-    STATUS_CANCELLED = 2,
-    STATUS_UNAVAILABLE = 3,
-    STATUS_PENDING = 4,
+enum class StatusValue {
+    kSuccess = 0,
+    kUnknown = 1,
+    kCancelled = 2,
+    kUnavailable = 3,
+    kPending = 4,
 };
 
 struct StatusCategory {
     using ValueType = StatusValue;
+    static constexpr StatusValue kSuccessValue = StatusValue::kSuccess;
 
     static bool IsSuccess(StatusValue value) {
         return value == kSuccessValue;
     }
-
-    static constexpr StatusValue kSuccessValue = STATUS_SUCCESS;
 };
 
 using Status = BasicStatus<StatusCategory>;
+
+static_assert(sizeof(Status) == sizeof(int));
 
 }
 

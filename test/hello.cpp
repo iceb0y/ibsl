@@ -4,8 +4,8 @@
 using namespace ibsl;
 
 int main() {
-    assert(Status(STATUS_SUCCESS).success());
-    assert(!Status(STATUS_UNKNOWN).success());
+    assert(Status(StatusValue::kSuccess).success());
+    assert(!Status(StatusValue::kUnknown).success());
 
     auto &stdout = Singleton<LinuxStandardOutput>::instance();
     size_t actual_size;
