@@ -13,8 +13,8 @@ public:
     Status Init(SizeT initial_size);
     Status Expand(SizeT min_size);
 
-    ElementT *data() { return array_.data(); }
-    SizeT size() { return size_; }
+    ElementT *data() const { return array_.data(); }
+    SizeT size() const { return size_; }
 
 private:
     BasicPODArray<ElementT, SizeT> array_;
