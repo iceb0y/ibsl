@@ -36,6 +36,7 @@ enum class StatusValue {
     kCancelled = 2,
     kUnavailable = 3,
     kPending = 4,
+    kNoMemory = 5,
 };
 
 struct StatusCategory {

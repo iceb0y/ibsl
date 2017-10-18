@@ -7,7 +7,7 @@ Copy / fork / submodule. Send pull request if you made something awesome.
 Rules
 
 New feature should not introduce significant compile-time overhead, or any
-runtime overhead when it's not used.
+runtime overhead (under -O2) when it's not used.
 
 Build
 
