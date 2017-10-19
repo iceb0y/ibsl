@@ -11,7 +11,9 @@ public:
 
     BasicStatus();
     explicit BasicStatus(ValueType value);
-    bool success();
+
+    bool success() { return CategoryT::IsSuccess(value_); }
+    ValueType value() { return value_; }
 
 private:
     ValueType value_;
@@ -24,11 +26,6 @@ BasicStatus<CategoryT>::BasicStatus()
 template <typename CategoryT>
 BasicStatus<CategoryT>::BasicStatus(ValueType value)
     : value_(value) {}
-
-template <typename CategoryT>
-bool BasicStatus<CategoryT>::success() {
-    return CategoryT::IsSuccess(value_);
-}
 
 enum class StatusValue {
     kSuccess = 0,
@@ -51,6 +48,9 @@ struct StatusCategory {
 using Status = BasicStatus<StatusCategory>;
 
 static_assert(sizeof(Status) == sizeof(int));
+
+template <typename T>
+Status ToStatus(T t);
 
 }
 

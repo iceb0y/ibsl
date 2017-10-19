@@ -5,22 +5,22 @@
 #include <cstdlib>
 #include <type_traits>
 #include "ibsl/status.h"
+#include "ibsl/util.h"
 
 namespace ibsl {
 
 template <typename ElementT, typename SizeT>
-class BasicPODArray {
+class BasicPODArray : private NonCopyable {
     static_assert(std::is_pod<ElementT>::value);
 
 public:
-    BasicPODArray() : data_(nullptr) {}
     ~BasicPODArray();
     Status Resize(SizeT size);
 
     ElementT *data() const { return data_; }
 
 private:
-    ElementT *data_;
+    ElementT *data_ = nullptr;
 };
 
 template <typename ElementT, typename SizeT>
