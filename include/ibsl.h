@@ -5,6 +5,7 @@
 #include "ibsl/buffer.h"
 #include "ibsl/singleton.h"
 #include "ibsl/status.h"
+#include "ibsl/util.h"
 #include "ibsl/view.h"
 
 #ifdef __linux__

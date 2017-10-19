@@ -36,7 +36,7 @@ Status BasicBuffer<ElementT, SizeT>::Init(SizeT initial_size) {
 template <typename ElementT, typename SizeT>
 Status BasicBuffer<ElementT, SizeT>::Expand(SizeT min_size) {
     if (min_size > size_) {
-        size_t new_size = size_;
+        SizeT new_size = size_;
         do {
             new_size *= 2;
         } while (min_size > new_size);
