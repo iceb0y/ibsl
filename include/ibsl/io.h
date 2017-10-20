@@ -2,21 +2,24 @@
 #define IBSL_IO_H
 
 #include <cstdio>
+#include <cstring>
 
 #include "ibsl/view.h"
 
 namespace ibsl {
 
-template <typename BaseOutputT, size_t block_size>
+static constexpr size_t kDefaultBlockSize = 4096;
+
+template <typename BaseOutputT, size_t block_size = kDefaultBlockSize>
 class BufferedOutput : private BaseOutputT {
 public:
     ~BufferedOutput();
-    Status Init(size_t initial_alloc_size);
+
     Status Write(StringView buffer, size_t &actual_size);
     Status Flush();
 
 private:
-    Buffer buffer_;
+    char buffer_[block_size * 2];
     size_t data_size_ = 0;
 };
 
@@ -26,22 +29,15 @@ BufferedOutput<BaseOutputT, block_size>::~BufferedOutput() {
 }
 
 template <typename BaseOutputT, size_t block_size>
-Status BufferedOutput<BaseOutputT, block_size>::Init(
-        size_t initial_alloc_size) {
-    buffer_.Init(initial_alloc_size);
-}
-
-template <typename BaseOutputT, size_t block_size>
 Status BufferedOutput<BaseOutputT, block_size>::Write(
         StringView buffer, size_t &actual_size) {
     if (buffer.size() < block_size) {
-        Status status = buffer_.Expand(data_size_ + buffer.size());
-        if (!status.success()) {
-            return status;
-        }
-        memcpy(buffer_.data() + data_size_, buffer.data(), buffer.size());
+        memcpy(buffer_ + data_size_, buffer.data(), buffer.size());
         if ((data_size_ += buffer.size()) >= block_size) {
-            Flush();  // may fail
+            Status status = Flush();
+            if (!status.success()) {
+                return status;
+            }
         }
         actual_size = buffer.size();
         return Status();
@@ -57,7 +53,7 @@ Status BufferedOutput<BaseOutputT, block_size>::Write(
 template <typename BaseOutputT, size_t block_size>
 Status BufferedOutput<BaseOutputT, block_size>::Flush() {
     Status status;
-    char *data = buffer_.data();
+    char *data = buffer_;
     size_t remaining = data_size_;
     size_t actual_size;
 
@@ -70,7 +66,7 @@ Status BufferedOutput<BaseOutputT, block_size>::Flush() {
         remaining -= actual_size;
     }
 
-    memmove(buffer_.data(), buffer_.data() + actual_size, data_size_);
+    memmove(buffer_, buffer_ + actual_size, data_size_);
     data_size_ = remaining;
     return status;
 }

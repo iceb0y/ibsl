@@ -9,13 +9,5 @@ int main() {
     assert(Status(StatusValue::kSuccess).success());
     assert(!Status(StatusValue::kUnknown).success());
 
-    Buffer buffer;
-    assert(buffer.Init(42).success());
-    assert(buffer.size() == 42);
-    assert(buffer.Expand(96).success());
-    assert(buffer.size() == 168);
-
-    StandardOutput stdout;
-    stdout.Init(8192);
-    WriteText(stdout, "Hello ", 42, "\n");
+    PrintText("Hello ", 42, "\n");
 }

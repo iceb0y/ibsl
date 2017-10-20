@@ -9,12 +9,12 @@
 namespace ibsl {
 
 template <int fd>
-struct BasicRawInput {
+struct LinuxBasicInput {
     LinuxStatus Read(MutableStringView buffer, size_t &actual_size);
 };
 
 template <int fd>
-LinuxStatus BasicRawInput<fd>::Read(MutableStringView buffer,
+LinuxStatus LinuxBasicInput<fd>::Read(MutableStringView buffer,
                                       size_t &actual_size) {
     ssize_t result = read(fd, buffer.data(), buffer.size());
     if (result < 0) {
@@ -25,12 +25,12 @@ LinuxStatus BasicRawInput<fd>::Read(MutableStringView buffer,
 }
 
 template <int fd>
-struct BasicRawOutput {
+struct LinuxBasicOutput {
     LinuxStatus Write(StringView buffer, size_t &actual_size);
 };
 
 template <int fd>
-LinuxStatus BasicRawOutput<fd>::Write(StringView buffer,
+LinuxStatus LinuxBasicOutput<fd>::Write(StringView buffer,
                                         size_t &actual_size) {
     ssize_t result = write(fd, buffer.data(), buffer.size());
     if (result < 0) {
@@ -40,14 +40,27 @@ LinuxStatus BasicRawOutput<fd>::Write(StringView buffer,
     return LinuxStatus();
 }
 
-using RawStandardInput = BasicRawInput<STDIN_FILENO>;
-using RawStandardOutput = BasicRawOutput<STDOUT_FILENO>;
-using RawStandardError = BasicRawOutput<STDERR_FILENO>;
+using LinuxStandardInput = LinuxBasicInput<STDIN_FILENO>;
+using LinuxStandardOutput = LinuxBasicOutput<STDOUT_FILENO>;
+using LinuxStandardError = LinuxBasicOutput<STDERR_FILENO>;
 
-static constexpr size_t kIoBlockSize = 4096;
+using StandardOutput = BufferedOutput<LinuxStandardOutput>;
+using StandardError = BufferedOutput<LinuxStandardError>;
 
-using StandardOutput = BufferedOutput<RawStandardOutput, kIoBlockSize>;
-using StandardError = BufferedOutput<RawStandardError, kIoBlockSize>;
+template <typename A>
+Status PrintText(const A &a) {
+    return WriteText(Singleton<StandardOutput>::instance(), a);
+};
+
+template <typename A, typename B>
+Status PrintText(const A &a, const B &b) {
+    return WriteText(Singleton<StandardOutput>::instance(), a, b);
+};
+
+template <typename A, typename B, typename C>
+Status PrintText(const A &a, const B &b, const C &c) {
+    return WriteText(Singleton<StandardOutput>::instance(), a, b, c);
+};
 
 }
 

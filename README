@@ -15,4 +15,4 @@ TBD
 
 Example
 
-PrintText("Hello", 42);  // Not implemented
+PrintText("Hello ", 42, "\n");
