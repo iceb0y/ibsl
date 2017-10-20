@@ -3,6 +3,7 @@
 
 #include "ibsl/array.h"
 #include "ibsl/buffer.h"
+#include "ibsl/io.h"
 #include "ibsl/singleton.h"
 #include "ibsl/status.h"
 #include "ibsl/util.h"

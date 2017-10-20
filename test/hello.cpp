@@ -15,8 +15,7 @@ int main() {
     assert(buffer.Expand(96).success());
     assert(buffer.size() == 168);
 
-    auto &stdout = Singleton<BufferedOutput<LinuxStandardOutput, 4096>>::instance();
-    assert(stdout.Init(8192).success());
-    size_t actual_size;
-    assert(stdout.Write({"Hello world!\n", 13}, actual_size).success());
+    BufferedOutput<LinuxStandardOutput, 4096> stdout;
+    stdout.Init(8192);
+    WriteText(stdout, "Hello ", 42);
 }
