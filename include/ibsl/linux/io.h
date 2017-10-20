@@ -9,12 +9,12 @@
 namespace ibsl {
 
 template <int fd>
-struct LinuxBasicInput {
+struct BasicRawInput {
     LinuxStatus Read(MutableStringView buffer, size_t &actual_size);
 };
 
 template <int fd>
-LinuxStatus LinuxBasicInput<fd>::Read(MutableStringView buffer,
+LinuxStatus BasicRawInput<fd>::Read(MutableStringView buffer,
                                       size_t &actual_size) {
     ssize_t result = read(fd, buffer.data(), buffer.size());
     if (result < 0) {
@@ -25,12 +25,12 @@ LinuxStatus LinuxBasicInput<fd>::Read(MutableStringView buffer,
 }
 
 template <int fd>
-struct LinuxBasicOutput {
+struct BasicRawOutput {
     LinuxStatus Write(StringView buffer, size_t &actual_size);
 };
 
 template <int fd>
-LinuxStatus LinuxBasicOutput<fd>::Write(StringView buffer,
+LinuxStatus BasicRawOutput<fd>::Write(StringView buffer,
                                         size_t &actual_size) {
     ssize_t result = write(fd, buffer.data(), buffer.size());
     if (result < 0) {
@@ -40,9 +40,14 @@ LinuxStatus LinuxBasicOutput<fd>::Write(StringView buffer,
     return LinuxStatus();
 }
 
-using LinuxStandardInput = LinuxBasicInput<STDIN_FILENO>;
-using LinuxStandardOutput = LinuxBasicOutput<STDOUT_FILENO>;
-using LinuxStandardError = LinuxBasicOutput<STDERR_FILENO>;
+using RawStandardInput = BasicRawInput<STDIN_FILENO>;
+using RawStandardOutput = BasicRawOutput<STDOUT_FILENO>;
+using RawStandardError = BasicRawOutput<STDERR_FILENO>;
+
+static constexpr size_t kIoBlockSize = 4096;
+
+using StandardOutput = BufferedOutput<RawStandardOutput, kIoBlockSize>;
+using StandardError = BufferedOutput<RawStandardError, kIoBlockSize>;
 
 }
 

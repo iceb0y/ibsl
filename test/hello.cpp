@@ -15,7 +15,7 @@ int main() {
     assert(buffer.Expand(96).success());
     assert(buffer.size() == 168);
 
-    BufferedOutput<LinuxStandardOutput, 4096> stdout;
+    StandardOutput stdout;
     stdout.Init(8192);
-    WriteText(stdout, "Hello ", 42);
+    WriteText(stdout, "Hello ", 42, "\n");
 }
