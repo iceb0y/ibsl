@@ -11,9 +11,10 @@
 #define CHECK(condition) \
     do { \
         if (!(condition)) { \
-            WriteText(Singleton<StandardError>::instance(), \
-                      "Check failed: " #condition " at " \
-                      __FILE__ ":" _IBSL_STRINGIZE(__LINE__) "\n"); \
+            WriteText( \
+                Singleton<StandardError>::instance(), \
+                StringLiteral("Check failed: " #condition " at " \
+                              __FILE__ ":" _IBSL_STRINGIZE(__LINE__) "\n")); \
             exit(1); \
         } \
     } while (0)

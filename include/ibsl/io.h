@@ -80,12 +80,6 @@ Status WriteText(OutputT &output, int i) {
 }
 
 template <typename OutputT>
-Status WriteText(OutputT &output, const char *str) {
-    size_t actual_size;
-    return output.Write({str, strlen(str)}, actual_size);
-};
-
-template <typename OutputT>
 Status WriteText(OutputT &output, StringView view) {
     size_t actual_size;
     return output.Write(view, actual_size);

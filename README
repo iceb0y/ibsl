@@ -15,4 +15,4 @@ TBD
 
 Example
 
-PrintText("Hello ", 42, "\n");
+PrintText(StringLiteral("Hello "), 42, StringLiteral("\n"));

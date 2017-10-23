@@ -1,4 +1,5 @@
 #include <ibsl.h>
+#include <ibsl/type.h>
 
 using namespace ibsl;
 
@@ -7,5 +8,5 @@ int main() {
     CHECK(Status(StatusValue::kSuccess).success());
     CHECK(!Status(StatusValue::kUnknown).success());
 
-    PrintText("Hello ", 42, "\n");
+    PrintText(StringLiteral("Hello "), 42, StringLiteral("\n"));
 }
