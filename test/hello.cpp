@@ -1,5 +1,4 @@
 #include <ibsl.h>
-#include <ibsl/type.h>
 
 using namespace ibsl;
 
