@@ -115,4 +115,10 @@ Status WriteText(OutputT &output, const A &a, const B &b, const C &c) {
 
 }
 
+#ifdef __linux__
+#include "ibsl/linux/io.h"
+#elif _WIN32
+#include "ibsl/win32/io.h"
+#endif
+
 #endif

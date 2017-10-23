@@ -54,4 +54,10 @@ Status ToStatus(T t);
 
 }
 
+#ifdef __linux__
+#include "ibsl/linux/status.h"
+#elif _WIN32
+#include "ibsl/win32/status.h"
+#endif
+
 #endif

@@ -1,6 +1,8 @@
 #ifndef IBSL_UTIL_H
 #define IBSL_UTIL_H
 
+#include <cstdlib>
+
 namespace ibsl {
 
 struct NonCopyable {

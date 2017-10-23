@@ -3,6 +3,7 @@
 
 #include <errno.h>
 #include <unistd.h>
+#include "ibsl/util.h"
 #include "ibsl/view.h"
 #include "ibsl/linux/status.h"
 

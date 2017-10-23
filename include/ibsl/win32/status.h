@@ -1,0 +1,3 @@
+#ifndef IBSL_WIN32_STATUS_H
+#define IBSL_WIN32_STATUS_H
+#endif
