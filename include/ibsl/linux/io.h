@@ -48,21 +48,6 @@ using LinuxStandardError = LinuxBasicOutput<STDERR_FILENO>;
 using StandardOutput = BufferedOutput<LinuxStandardOutput>;
 using StandardError = BufferedOutput<LinuxStandardError>;
 
-template <typename A>
-Status PrintText(const A &a) {
-    return WriteText(Singleton<StandardOutput>::instance(), a);
-};
-
-template <typename A, typename B>
-Status PrintText(const A &a, const B &b) {
-    return WriteText(Singleton<StandardOutput>::instance(), a, b);
-};
-
-template <typename A, typename B, typename C>
-Status PrintText(const A &a, const B &b, const C &c) {
-    return WriteText(Singleton<StandardOutput>::instance(), a, b, c);
-};
-
 }
 
 #endif

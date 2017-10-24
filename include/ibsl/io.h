@@ -72,14 +72,6 @@ Status BufferedOutput<BaseOutputT, block_size>::Flush() {
 }
 
 template <typename OutputT>
-Status WriteText(OutputT &output, int i) {
-    // TODO(iceboy): faster
-    char buf[12];
-    size_t actual_size;
-    return output.Write({buf, sprintf(buf, "%d", i)}, actual_size);
-}
-
-template <typename OutputT>
 Status WriteText(OutputT &output, StringView view) {
     size_t actual_size;
     return output.Write(view, actual_size);
@@ -114,5 +106,24 @@ Status WriteText(OutputT &output, const A &a, const B &b, const C &c) {
 #elif _WIN32
 #include "ibsl/win32/io.h"
 #endif
+
+namespace ibsl {
+
+template <typename A>
+Status PrintText(const A &a) {
+    return WriteText(Singleton<StandardOutput>::instance(), a);
+};
+
+template <typename A, typename B>
+Status PrintText(const A &a, const B &b) {
+    return WriteText(Singleton<StandardOutput>::instance(), a, b);
+};
+
+template <typename A, typename B, typename C>
+Status PrintText(const A &a, const B &b, const C &c) {
+    return WriteText(Singleton<StandardOutput>::instance(), a, b, c);
+};
+
+}
 
 #endif
