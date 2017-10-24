@@ -33,12 +33,10 @@ using ArrayView = MutableArrayView<const ElementT>;
 using MutableStringView = MutableArrayView<char>;
 using StringView = ArrayView<char>;
 
-class StringLiteral : public StringView {
-public:
-    template <size_t size>
-    constexpr explicit StringLiteral(const char (&s)[size])
-            : StringView(s, size - 1) {}
-};
+template <size_t size>
+constexpr StringView StringLiteral(const char (&s)[size]) {
+    return {s, size - 1};
+}
 
 }
 
