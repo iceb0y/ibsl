@@ -85,9 +85,20 @@ public:
         }
     }
 
-    BasicRc(const BasicRc<ObjectT, CounterT> &) = delete;
+    BasicRc(const BasicRc<ObjectT, CounterT> &other)
+            : wrapper_(other.wrapper_) {
+        wrapper_->AddRef();
+    }
+
     BasicRc<ObjectT, CounterT> &operator=(
-            const BasicRc<ObjectT, CounterT> &) = delete;
+            const BasicRc<ObjectT, CounterT> &other) {
+        if (wrapper_) {
+            wrapper_->Release();
+        }
+        wrapper_ = other.wrapper_;
+        wrapper_->AddRef();
+        return *this;
+    };
 
     BasicRc(BasicRc<ObjectT, CounterT> &&other)
             : wrapper_(other.wrapper_) {
