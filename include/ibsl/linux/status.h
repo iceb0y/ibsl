@@ -19,7 +19,7 @@ using LinuxStatus = BasicStatus<LinuxStatusCategory>;
 static_assert(sizeof(LinuxStatus) == sizeof(int));
 
 template <>
-Status ToStatus<LinuxStatus>(LinuxStatus status) {
+inline Status ToStatus<LinuxStatus>(LinuxStatus status) {
     switch (status.value()) {
     case 0:
         return Status();
