@@ -3,6 +3,7 @@
 
 #include <atomic>
 #include <cstdint>
+#include <new>
 #include <utility>
 
 namespace ibsl {
@@ -30,7 +31,7 @@ public:
 
     template <typename... ArgsT>
     static Ptr<T> New(ArgsT &&...args) {
-        return Ptr<T>(new T(std::forward<ArgsT>(args)...));
+        return Ptr<T>(new (std::nothrow) T(std::forward<ArgsT>(args)...));
     }
 
     explicit operator bool() const {
@@ -117,7 +118,7 @@ public:
     template <typename... ArgsT>
     static BasicRc<ObjectT, CounterT> New(ArgsT &&...args) {
         return BasicRc<ObjectT, CounterT>(
-                new BasicRcWrapper<ObjectT, CounterT>(
+                new (std::nothrow) BasicRcWrapper<ObjectT, CounterT>(
                         std::forward<ArgsT>(args)...));
     }
 
