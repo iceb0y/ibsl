@@ -53,12 +53,12 @@ private:
 };
 
 template <typename ObjectT, typename CounterT>
-class BasicRcWrapper : public ObjectT {
+class BasicRcWrapper {
 public:
     template <typename... ArgsT>
     BasicRcWrapper(ArgsT &&...args)
-            : ObjectT(std::forward<ArgsT>(args)...),
-              counter_(1)
+            : counter_(1),
+              object_(std::forward<ArgsT>(args)...)
     {}
 
     void AddRef() {
@@ -71,8 +71,11 @@ public:
         }
     }
 
+    ObjectT &object() { return object_; }
+
 private:
     CounterT counter_;
+    ObjectT object_;
 };
 
 template <typename ObjectT, typename CounterT>
@@ -127,11 +130,11 @@ public:
     }
 
     ObjectT &operator *() const {
-        return *wrapper_;
+        return wrapper_->object();
     }
 
     ObjectT *operator->() const {
-        return wrapper_;
+        return &wrapper_->object();
     }
 
 private:
