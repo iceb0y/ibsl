@@ -53,29 +53,24 @@ private:
 };
 
 template <typename ObjectT, typename CounterT>
-class BasicRcWrapper {
+class BasicRcWrapper : public CompressedMember<CounterT, Tag<0>>,
+                       public CompressedMember<ObjectT, Tag<1>> {
 public:
     template <typename... ArgsT>
     BasicRcWrapper(ArgsT &&...args)
-            : counter_(1),
-              object_(std::forward<ArgsT>(args)...)
+            : CompressedMember<CounterT, Tag<0>>(1),
+              CompressedMember<ObjectT, Tag<1>>(std::forward<ArgsT>(args)...)
     {}
 
     void AddRef() {
-        ++counter_;
+        ++CompressedMember<CounterT, Tag<0>>::object();
     }
 
     void Release() {
-        if (--counter_ == 0) {
+        if (--CompressedMember<CounterT, Tag<0>>::object() == 0) {
             delete this;
         }
     }
-
-    ObjectT &object() { return object_; }
-
-private:
-    CounterT counter_;
-    ObjectT object_;
 };
 
 template <typename ObjectT, typename CounterT>
@@ -130,11 +125,11 @@ public:
     }
 
     ObjectT &operator *() const {
-        return wrapper_->object();
+        return wrapper_->CompressedMember<ObjectT, Tag<1>>::object();
     }
 
     ObjectT *operator->() const {
-        return &wrapper_->object();
+        return &wrapper_->CompressedMember<ObjectT, Tag<1>>::object();
     }
 
 private:
