@@ -2,6 +2,7 @@
 #define IBSL_UTIL_H
 
 #include <cstdlib>
+#include <type_traits>
 #include <utility>
 
 namespace ibsl {
@@ -62,5 +63,21 @@ using CompressedMember = CompressedMemberImpl<
         ObjectT, TagT, std::is_class<ObjectT>::value>;
 
 }
+
+// Wraps a class into POD, which needs explicit creation and deletion.
+template <typename T>
+class PodWrapper {
+public:
+    template <typename ...ArgsT>
+    void emplace(ArgsT &&...args) { new(&storage_) T(std::forward<ArgsT>(args)...); }
+    void destroy() { reinterpret_cast<T *>(&storage_)->~T(); }
+    T &get() { return *reinterpret_cast<T *>(&storage_); }
+    const T &get() const { return *reinterpret_cast<const T *>(&storage_); }
+    T *operator->() { return &get(); }
+    const T *operator->() const { return &get(); }
+
+private:
+    typename std::aligned_storage<sizeof(T), alignof(T)>::type storage_;
+};
 
 #endif
